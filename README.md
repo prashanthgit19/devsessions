@@ -8,27 +8,11 @@ See `prd.txt` for the full product requirements and `PRIVACY.md` for the local-d
 
 ## Install
 
-Download the latest DMG from [Releases](https://github.com/prashanthgit19/devsessions/releases).
+Download the latest DMG from [Releases](https://github.com/prashanthgit19/devsessions/releases). The app is signed with an Apple Development certificate and is not notarized, so macOS requires a one-time Gatekeeper approval.
 
-Public builds are signed with the project’s Apple Development certificate, not notarized. macOS blocks the first launch until you approve it:
+See [INSTALL.md](INSTALL.md) for checksum verification, first-launch steps, widget setup, terminal permissions, source builds, and troubleshooting.
 
-1. Open the DMG and drag `DevSessions.app` to `Applications`.
-2. Try to open DevSessions once. macOS reports that it cannot verify the app.
-3. Open **System Settings → Privacy & Security**, scroll to **Security**, click **Open Anyway**, authenticate, then click **Open**.
-
-If macOS says the app is damaged, remove the quarantine flag and open it again:
-
-```sh
-xattr -dr com.apple.quarantine /Applications/DevSessions.app
-```
-
-Verify the download against the published checksum:
-
-```sh
-shasum -a 256 -c SHA256SUMS
-```
-
-The app is universal (`arm64` + `x86_64`) and requires macOS 14 or later. No Apple ID, developer account, or Xcode is needed to use it.
+The app is universal (`arm64` + `x86_64`) and requires macOS 14 or later. No Apple ID, developer account, or Xcode is needed to use the DMG.
 
 ## What is implemented
 
@@ -141,7 +125,9 @@ DevSessionsWidget/        WidgetKit extension
 Packages/DevSessionsCore/ Shared models, state, deep links, command building
 Config/                   Info.plists and entitlements
 scripts/                  Project generation fixes, icon generator, release packaging
-.github/workflows/        Tag-triggered DMG release build
+.github/workflows/        Manual CI DMG test build
+INSTALL.md                User installation and troubleshooting guide
+DEMO_VIDEO.md             Free demo-video production plan
 project.yml               XcodeGen project definition
 prd.txt                   Product requirements
 LICENSE                   MIT license
