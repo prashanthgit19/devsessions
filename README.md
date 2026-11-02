@@ -1,8 +1,12 @@
+<p align="center">
+  <img src="DevSessions/Assets.xcassets/AppIcon.appiconset/icon_512x512@2x.png" width="128" alt="DevSessions app icon">
+</p>
+
 # DevSessions
 
 DevSessions is a macOS widget plus menu bar companion app that shows recently active OpenCode, Claude Code, Codex, Pi, and Oh My Pi sessions and resumes them in the user’s selected terminal.
 
-Phases 0–2.1 are complete: the app, widget, App Group, deep link, terminal hand-off, five-agent discovery, real cache, scheduler, settings, global terminal preference, and real resume paths are implemented. Phase 4 adds the app icon and a tag-triggered DMG release pipeline.
+Phases 0–2.1 are complete: the app, widget, App Group, deep link, terminal hand-off, five-agent discovery, real cache, scheduler, settings, global terminal preference, widget themes, and real resume paths are implemented. Phase 4 adds the app icon and a manual team-signed DMG release path.
 
 See `prd.txt` for the full product requirements and `PRIVACY.md` for the local-data policy.
 
@@ -127,7 +131,6 @@ Config/                   Info.plists and entitlements
 scripts/                  Project generation fixes, icon generator, release packaging
 .github/workflows/        Manual CI DMG test build
 INSTALL.md                User installation and troubleshooting guide
-DEMO_VIDEO.md             Free demo-video production plan
 project.yml               XcodeGen project definition
 prd.txt                   Product requirements
 LICENSE                   MIT license
