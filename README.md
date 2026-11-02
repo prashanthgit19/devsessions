@@ -86,7 +86,7 @@ In Xcode:
 3. Both targets use the same App Group automatically. `APP_GROUP_ID` defaults to `$(TeamIdentifierPrefix)com.devsessions.shared2`; with the checked-in team it resolves to `67Z29VG25Z.com.devsessions.shared2`.
 4. Build and run the `DevSessions` scheme.
 
-The project is preconfigured for team `67Z29VG25Z`. To use a different team, change only `DEVELOPMENT_TEAM` in `project.yml` and run `make project`. The App Group follows the signing team’s prefix, so both targets and the shared cache stay in sync. The official ad-hoc DMG pins `APP_GROUP_ID` to `67Z29VG25Z.com.devsessions.shared2` in `scripts/package_release.sh`.
+The project is preconfigured for team `67Z29VG25Z`. To use a different team, change only `DEVELOPMENT_TEAM` in `project.yml` and run `make project`. The App Group follows the signing team’s prefix, so both targets and the shared cache stay in sync. Public releases use the Apple Development team signature; the ad-hoc mode in `scripts/package_release.sh` is for CI/UI tests only.
 
 The XcodeGen post-generation hook keeps the App Groups capability metadata valid.
 
@@ -157,7 +157,7 @@ LICENSE                   MIT license
 - The terminal choice is global for all sessions, stored app-side; the widget always deep-links back to DevSessions first.
 - The widget theme is global, stored in the App Group, and chosen in **Settings → Widget**. App themes apply in Full Color; Clear and Tinted are system-wide styles in **System Settings → Appearance**.
 - The app rescans shortly after a resume.
-- The App Group identifier is derived from the signing team’s prefix (`APP_GROUP_ID`); with the checked-in team it resolves to `67Z29VG25Z.com.devsessions.shared2`. The host and widget declare the same identifier, and the official ad-hoc build pins that group.
+- The App Group identifier is derived from the signing team’s prefix (`APP_GROUP_ID`); with the checked-in team it resolves to `67Z29VG25Z.com.devsessions.shared2`. The host and widget declare the same identifier. Public builds must use the team signature; ad-hoc builds are CI/UI tests only.
 - A Debug-only `scan-status.txt` is written to `~/Library/Application Support/DevSessions` for troubleshooting.
 - The host app is intentionally not sandboxed; the widget extension is sandboxed.
 - No network access, analytics, or third-party dependencies are used.
