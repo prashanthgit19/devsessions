@@ -9,7 +9,8 @@ struct DevSessionsApp: App {
         MenuBarExtra {
             MenuBarView()
         } label: {
-            MenuBarMark()
+            Image(nsImage: MenuBarIcon.image)
+                .accessibilityLabel("DevSessions")
         }
         .menuBarExtraStyle(.menu)
 
@@ -22,25 +23,5 @@ struct DevSessionsApp: App {
             SettingsView()
         }
         .windowResizability(.contentSize)
-    }
-}
-
-private struct MenuBarMark: View {
-    var body: some View {
-        ZStack {
-            Circle()
-                .trim(from: 0, to: 0.86)
-                .stroke(
-                    style: StrokeStyle(lineWidth: 1.6, lineCap: .round)
-                )
-                .rotationEffect(.degrees(-20))
-
-            Circle()
-                .frame(width: 3.4, height: 3.4)
-                .offset(x: 5, y: -5)
-        }
-        .frame(width: 15, height: 15)
-        .foregroundStyle(.primary)
-        .accessibilityLabel("DevSessions")
     }
 }

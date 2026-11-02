@@ -21,6 +21,7 @@
 		966B95759F8BA23703B41FCB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344A400BA60D14AF6C862F55 /* SettingsView.swift */; };
 		98F61994CFCC6FDEF86ED4B7 /* WidgetPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = E133AC13CB0EFA7DCDC3F8ED /* WidgetPalette.swift */; };
 		A9E815B070C8A9ACA811F155 /* DevSessionsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958833A2FAF5C3AE8BC77217 /* DevSessionsApp.swift */; };
+		C67B815B435D22A51E2D58E6 /* MenuBarIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CD0861896F649E23EF4113 /* MenuBarIcon.swift */; };
 		D41E131CE98CDB7659AA4DBE /* Phase0View.swift in Sources */ = {isa = PBXBuildFile; fileRef = C921711CBE281BC785894089 /* Phase0View.swift */; };
 		DCE00F8251AB64F5AB9B90FE /* AgentExecutableResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D606A8C988A20BBA6AAF9EA /* AgentExecutableResolver.swift */; };
 		E4DBF1264B2B9067AB39EE29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A293B3843362034C860EAB7 /* Assets.xcassets */; };
@@ -52,6 +53,7 @@
 
 /* Begin PBXFileReference section */
 		0E4E874BAF26CCA71153D331 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		15CD0861896F649E23EF4113 /* MenuBarIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarIcon.swift; sourceTree = "<group>"; };
 		23E8F1B2024C68145A24FFC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2D606A8C988A20BBA6AAF9EA /* AgentExecutableResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentExecutableResolver.swift; sourceTree = "<group>"; };
 		2F6C0EC788DFBC6149A0E812 /* DevSessions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DevSessions.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,6 +129,7 @@
 				23E8F1B2024C68145A24FFC8 /* AppDelegate.swift */,
 				6A293B3843362034C860EAB7 /* Assets.xcassets */,
 				958833A2FAF5C3AE8BC77217 /* DevSessionsApp.swift */,
+				15CD0861896F649E23EF4113 /* MenuBarIcon.swift */,
 				0E4E874BAF26CCA71153D331 /* MenuBarView.swift */,
 				312389CC8655D0FA0E050C99 /* Phase0Controller.swift */,
 				C921711CBE281BC785894089 /* Phase0View.swift */,
@@ -260,6 +263,7 @@
 				DCE00F8251AB64F5AB9B90FE /* AgentExecutableResolver.swift in Sources */,
 				1BD971619951ACB5B2C235D2 /* AppDelegate.swift in Sources */,
 				A9E815B070C8A9ACA811F155 /* DevSessionsApp.swift in Sources */,
+				C67B815B435D22A51E2D58E6 /* MenuBarIcon.swift in Sources */,
 				18098F8A0D25F37EB14DDA93 /* MenuBarView.swift in Sources */,
 				32289E53C01DF8BEC4C641B1 /* Phase0Controller.swift in Sources */,
 				D41E131CE98CDB7659AA4DBE /* Phase0View.swift in Sources */,
@@ -295,6 +299,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_GROUP_ID = "$(TeamIdentifierPrefix)com.devsessions.shared2";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -326,7 +331,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 67Z29VG25Z;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -341,7 +346,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.1.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -420,6 +425,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				APP_GROUP_ID = "$(TeamIdentifierPrefix)com.devsessions.shared2";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -451,7 +457,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 67Z29VG25Z;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -472,7 +478,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

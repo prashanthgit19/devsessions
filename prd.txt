@@ -9,7 +9,7 @@
 | Stack | Swift, SwiftUI, WidgetKit, AppKit (URL handling and Terminal launch) |
 | Supported agents | OpenCode, Claude Code, Codex, Pi, Oh My Pi |
 | Supported terminals | Terminal.app, Ghostty |
-| Distribution | Direct download, Developer ID signed and notarized (not Mac App Store) |
+| Distribution | Direct download, team-signed (Apple Development or Developer ID); Developer ID + notarization for frictionless install |
 | Status | Draft v4 |
 
 ---
@@ -63,7 +63,7 @@ These constraints are part of the product definition, not implementation details
 
 2. **The host app must be non-sandboxed.**
    - Automatic discovery requires reading agent data outside the app container.
-   - This rules out Mac App Store distribution. DevSessions ships as a direct download; Developer ID signing and notarization are optional and remove the first-launch approval.
+   - This rules out Mac App Store distribution. DevSessions ships as a direct download. Public builds must use a team signing identity; ad-hoc apps cannot write the shared App Group. Developer ID signing and notarization are optional and remove the first-launch approval.
    - The widget extension itself remains sandboxed.
 
 3. **There is no stable cross-project session-list API.**
@@ -449,7 +449,7 @@ exec '/absolute/path/to/agent' <resume arguments>
 ### Distribution and signing
 
 - Direct download DMG containing `DevSessions.app` and the embedded widget extension.
-- Public builds are ad-hoc signed with hardened runtime; users approve the app once in Gatekeeper.
+- Public builds are signed with the Apple Development team certificate and hardened runtime; users approve the app once in Gatekeeper. Ad-hoc builds are CI/UI tests only; they cannot write the shared App Group.
 - Developer ID signing, notarization, and stapling are optional upgrades for a frictionless first launch.
 - App Group entitlement shared by the host app and widget extension.
 - The host app is not sandboxed; the widget extension is sandboxed.
@@ -459,7 +459,7 @@ exec '/absolute/path/to/agent' <resume arguments>
 
 - Xcode with the installed macOS SDK. Command Line Tools alone are not sufficient for the widget extension.
 - An Apple Developer team/signing identity for the App Group entitlement.
-- A paid Developer ID for public notarized distribution.
+- A paid Developer ID for notarized distribution; the free Apple Development certificate works for the current public build.
 
 ---
 

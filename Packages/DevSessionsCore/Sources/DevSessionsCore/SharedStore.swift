@@ -1,9 +1,16 @@
 import Foundation
 
 public enum AppGroup {
-    /// Must match Config/DevSessions.entitlements and Config/DevSessionsWidget.entitlements.
-    /// Change this if your team requires a team-scoped App Group identifier.
-    public static let identifier = "67Z29VG25Z.com.devsessions.shared2"
+    /// Derived at build time from the signing team. The fallback keeps the
+    /// core checks and older builds working.
+    public static let identifier: String = {
+        if let group = Bundle.main.object(
+            forInfoDictionaryKey: "DevSessionsAppGroup"
+        ) as? String, !group.isEmpty {
+            return group
+        }
+        return "67Z29VG25Z.com.devsessions.shared2"
+    }()
 }
 
 public struct SharedStore: Sendable {

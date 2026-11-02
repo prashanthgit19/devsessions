@@ -10,7 +10,7 @@ See `prd.txt` for the full product requirements and `PRIVACY.md` for the local-d
 
 Download the latest DMG from [Releases](https://github.com/prashanthgit19/devsessions/releases).
 
-Public builds are ad-hoc signed, not notarized. macOS blocks the first launch until you approve it:
+Public builds are signed with the project’s Apple Development certificate, not notarized. macOS blocks the first launch until you approve it:
 
 1. Open the DMG and drag `DevSessions.app` to `Applications`.
 2. Try to open DevSessions once. macOS reports that it cannot verify the app.
@@ -56,7 +56,7 @@ Phases 0–2 are runtime-validated on this Mac:
 
 The real scan reports OpenCode 200 (cache cap), Claude 18, and Codex 24. Because OpenCode is heavily used here, the global top 200 is entirely OpenCode, which is the intended behavior. Pi has no saved sessions yet; Oh My Pi is installed but has not created `~/.omp` sessions yet.
 
-The local build uses a free Apple Development certificate and the team-prefixed macOS App Group convention. Public releases are ad-hoc signed and not notarized, so macOS requires a one-time approval on first launch. Developer ID signing and notarization are optional upgrades, not requirements. Public users do not need Xcode, an Apple ID, or a developer account.
+The local build uses a free Apple Development certificate and the team-prefixed macOS App Group convention. Public builds must be signed with a team identity; ad-hoc signed apps cannot write the shared App Group container on other Macs. Developer ID signing and notarization are optional upgrades, not requirements. Public users do not need Xcode, an Apple ID, or a developer account.
 
 ## Requirements
 
@@ -69,7 +69,7 @@ To build from source:
 
 - Xcode with the installed macOS SDK.
 - [XcodeGen](https://github.com/yonaskolb/XcodeGen): `brew install xcodegen`.
-- An Apple Developer team/signing identity. A free personal team works for local development; ad-hoc signing (`DEVELOPER_ID_APPLICATION="-"`) needs no account.
+- An Apple Developer team/signing identity. A free personal team works for local development and for the Apple Development-signed public build. Ad-hoc signing is for CI/UI tests only; it cannot write the shared App Group on another Mac.
 
 ## Setup
 
@@ -83,17 +83,12 @@ In Xcode:
 
 1. Select the `DevSessions` target → Signing & Capabilities → choose your team.
 2. Select the `DevSessionsWidget` target → choose the same team.
-3. Make sure both targets use the same App Group. The checked-in default is `67Z29VG25Z.com.devsessions.shared2`, using macOS’s `<TeamID>.<group-name>` convention.
+3. Both targets use the same App Group automatically. `APP_GROUP_ID` defaults to `$(TeamIdentifierPrefix)com.devsessions.shared2`; with the checked-in team it resolves to `67Z29VG25Z.com.devsessions.shared2`.
 4. Build and run the `DevSessions` scheme.
 
-The project is preconfigured for team `67Z29VG25Z`. To use a different team, update:
+The project is preconfigured for team `67Z29VG25Z`. To use a different team, change only `DEVELOPMENT_TEAM` in `project.yml` and run `make project`. The App Group follows the signing team’s prefix, so both targets and the shared cache stay in sync. The official ad-hoc DMG pins `APP_GROUP_ID` to `67Z29VG25Z.com.devsessions.shared2` in `scripts/package_release.sh`.
 
-- `DEVELOPMENT_TEAM` in `project.yml`
-- `Config/DevSessions.entitlements`
-- `Config/DevSessionsWidget.entitlements`
-- `AppGroup.identifier` in `Packages/DevSessionsCore/Sources/DevSessionsCore/SharedStore.swift`
-
-Then run `make project` again. The XcodeGen post-generation hook keeps the App Groups capability metadata valid.
+The XcodeGen post-generation hook keeps the App Groups capability metadata valid.
 
 ## Current acceptance test
 
@@ -162,7 +157,7 @@ LICENSE                   MIT license
 - The terminal choice is global for all sessions, stored app-side; the widget always deep-links back to DevSessions first.
 - The widget theme is global, stored in the App Group, and chosen in **Settings → Widget**. App themes apply in Full Color; Clear and Tinted are system-wide styles in **System Settings → Appearance**.
 - The app rescans shortly after a resume.
-- The App Group uses the team-prefixed macOS convention `67Z29VG25Z.com.devsessions.shared2`; the host and widget declare the same identifier, so sharing works with Apple Development or ad-hoc signing.
+- The App Group identifier is derived from the signing team’s prefix (`APP_GROUP_ID`); with the checked-in team it resolves to `67Z29VG25Z.com.devsessions.shared2`. The host and widget declare the same identifier, and the official ad-hoc build pins that group.
 - A Debug-only `scan-status.txt` is written to `~/Library/Application Support/DevSessions` for troubleshooting.
 - The host app is intentionally not sandboxed; the widget extension is sandboxed.
 - No network access, analytics, or third-party dependencies are used.
@@ -173,17 +168,19 @@ Build a Release app and DMG:
 
 ```sh
 make release
-# dist/DevSessions-0.1.0.dmg
+# dist/DevSessions-0.1.1.dmg
 # dist/SHA256SUMS
 ```
 
-`make release` uses your configured Apple Development team. For a public build that needs no Apple account, ad-hoc sign it:
+`make release` uses your configured Apple Development team. This is the current free public build: it is not notarized, so users approve the app once on first launch. See [Install](#install).
+
+Ad-hoc signing is for CI/UI testing only:
 
 ```sh
 DEVELOPER_ID_APPLICATION="-" make release
 ```
 
-Ad-hoc builds are not notarized, so users approve the app once on first launch. See [Install](#install).
+Ad-hoc apps cannot write the shared App Group container on another Mac, so the cache and widget fail there. Do not publish an ad-hoc DMG.
 
 To sign and notarize with a paid Developer ID instead:
 
@@ -199,14 +196,17 @@ The packaging script submits the DMG to `notarytool` and staples it when a Devel
 
 ### Publishing
 
-Tags matching `v*` trigger `.github/workflows/release.yml`, which builds an ad-hoc DMG on a GitHub-hosted macOS runner and attaches the DMG plus `SHA256SUMS` to the release:
+Public releases are built locally with `make release` and uploaded. The CI workflow is a manual test build only; tag pushes do not publish ad-hoc artifacts.
 
 ```sh
-git tag v0.1.0
-git push origin v0.1.0
+make release
+git tag v0.1.1
+git push origin v0.1.1
+gh release create v0.1.1 dist/DevSessions-0.1.1.dmg dist/SHA256SUMS \
+  --title v0.1.1 --generate-notes
 ```
 
-The workflow needs no secrets. Add Developer ID and notarization secrets later if you want a notarized release.
+The free Apple Development certificate expires yearly; renew it and publish an updated build. Developer ID signing and notarization remove the first-launch approval step when you are ready to pay for the program.
 
 ## Remaining work
 

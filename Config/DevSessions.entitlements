@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>67Z29VG25Z.com.devsessions.shared2</string>
+		<string>$(APP_GROUP_ID)</string>
 	</array>
 	<key>com.apple.security.automation.apple-events</key>
 	<true/>

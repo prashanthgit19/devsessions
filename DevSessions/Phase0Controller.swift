@@ -15,7 +15,6 @@ final class Phase0Controller: ObservableObject {
 
     private var store: SharedStore?
     private var didBootstrap = false
-    private var hasAppliedInitialScan = false
     private var scanTimer: Timer?
     private var wakeObserver: NSObjectProtocol?
 
@@ -177,10 +176,6 @@ final class Phase0Controller: ObservableObject {
             diagnostics: result.diagnostics
         )
 
-        let changed = state?.sessions != newState.sessions
-            || state?.diagnostics != newState.diagnostics
-            || state?.activityWindowDays != newState.activityWindowDays
-
         do {
             try store?.save(newState)
             errorMessage = nil
@@ -194,10 +189,9 @@ final class Phase0Controller: ObservableObject {
         statusMessage = "\(newState.sessions.count) sessions · \(Self.timeFormatter.string(from: result.generatedAt))"
         writeDebugStatus("SCAN \(newState.sessions.count) sessions")
 
-        if changed || !hasAppliedInitialScan {
-            WidgetCenter.shared.reloadAllTimelines()
-        }
-        hasAppliedInitialScan = true
+        // Always refresh the widget so a manual scan updates its timeline,
+        // activity chart, and relative times even when the rows are unchanged.
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     private func startScheduler() {

@@ -16,12 +16,14 @@ chmod 755 "$STAGING"
 
 SIGN_ARGS=()
 if [[ "${DEVELOPER_ID_APPLICATION:-}" == "-" ]]; then
-  # Ad-hoc signing for public releases without a paid Apple Developer Program.
+  # Ad-hoc signing is for CI/UI tests only. Ad-hoc apps cannot write an
+  # App Group container on another Mac, so do not publish these artifacts.
   SIGN_ARGS+=(
     "CODE_SIGN_IDENTITY=-"
     "CODE_SIGN_STYLE=Manual"
     "DEVELOPMENT_TEAM="
     "PROVISIONING_PROFILE_SPECIFIER="
+    "APP_GROUP_ID=67Z29VG25Z.com.devsessions.shared2"
   )
 elif [[ -n "${DEVELOPER_ID_APPLICATION:-}" ]]; then
   SIGN_ARGS+=("CODE_SIGN_IDENTITY=$DEVELOPER_ID_APPLICATION")
